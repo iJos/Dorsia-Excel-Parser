@@ -14,10 +14,8 @@ except IndexError:
 result_array = []
 book = xlrd.open_workbook("file.xls")
 
-
 sheet_names = book.sheet_names()
 sheet_total_pages = book.nsheets;
-
 
 for i in range(0, sheet_total_pages):
   current_sheet = book.sheet_by_index(i)
