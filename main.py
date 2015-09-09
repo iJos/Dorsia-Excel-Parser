@@ -2,13 +2,23 @@ import sys
 import xlrd
 import json
 
+from validate_email import validate_email
+
 debug = None
+
+'''
 try:
   if sys.argv[1] == '-d':
     debug = True
   else:
     debug = False
 except IndexError:
+  debug = False
+'''
+if len(sys.argv) > 1 :
+  if sys.argv[1] == '-d':
+    debug = True
+else:
   debug = False
 
 result_array = []
@@ -38,7 +48,9 @@ for i in range(0, sheet_total_pages):
         if cell_obj.value: # If cell value (string) is not empty
           email = cell_obj.value
           email = email.lower()
-          result_array.append(email)
+          is_valid = validate_email(email) # We cant validate if email exist (pyDNS is not working anymore)
+          if is_valid:
+            result_array.append(email)
 
 result_array = list(set(result_array)) # Removing duplicate entries
 result_array.sort()
