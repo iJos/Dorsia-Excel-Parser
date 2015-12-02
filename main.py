@@ -1,3 +1,5 @@
+#!python2
+
 import sys
 import xlrd
 import json
@@ -5,6 +7,7 @@ import json
 from validate_email import validate_email
 
 debug = None
+emails_parsed = 0;
 
 '''
 try:
@@ -48,6 +51,7 @@ for i in range(0, sheet_total_pages):
         if cell_obj.value: # If cell value (string) is not empty
           email = cell_obj.value
           email = email.lower()
+          emails_parsed = emails_parsed + 1
           is_valid = validate_email(email) # We cant validate if email exist (pyDNS is not working anymore)
           if is_valid:
             result_array.append(email)
@@ -57,6 +61,8 @@ result_array.sort()
 
 result_json = json.dumps(result_array)
 
-file_ = open('result.json', 'w')
+file_ = open('emails.json', 'w')
 file_.write(result_json)
 file_.close()
+
+print('Parsed %d emails'% emails_parsed)
